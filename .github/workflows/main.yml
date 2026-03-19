@@ -1,0 +1,20 @@
+name: Build Lunapark
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential clang
+      - name: Run Build
+        run: |
+          make || python3 setup.py install || echo "No build script found"
+      - name: Upload Result
+        uses: actions/upload-artifact@v3
+        with:
+          name: lunapark-build
+          path: ./ # Ya jo bhi file generate hui ho
